@@ -8,3 +8,4 @@ joblib>=1.4
 # (check with: pip show scikit-learn), e.g. scikit-learn==1.5.2
 scikit-learn
 # If your pipeline also uses xgboost, lightgbm, imbalanced-learn, etc., add them here.
+xgboost==3.4.1
