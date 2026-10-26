@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Credit Risk Assessment</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f2f4f8; display: flex;
+           justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .card { background: #fff; padding: 30px; border-radius: 10px; width: 320px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h2 { margin-top: 0; text-align: center; }
+    input { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box;
+            border: 1px solid #ccc; border-radius: 6px; }
+    button { width: 100%; padding: 10px; background: #16a34a; color: #fff;
+             border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+    button:hover { background: #15803d; }
+    #msg { color: #dc2626; font-size: 14px; min-height: 18px; }
+    p { text-align: center; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Register</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password (min 8 characters)">
+    <div id="msg"></div>
+    <button onclick="register()">Create account</button>
+    <p>Pehle se account hai? <a href="/login.html">Login</a></p>
+  </div>
+
+  <script>
+    async function register() {
+      const msg = document.getElementById("msg");
+      msg.style.color = "#dc2626";
+      msg.textContent = "";
+
+      const res = await fetch("/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value,
+        }),
+      });
+
+      if (res.ok) {
+        msg.style.color = "#16a34a";
+        msg.textContent = "Account ban gaya! Login page par ja rahe hain...";
+        setTimeout(() => window.location.href = "/login.html", 1200);
+        return;
+      }
+
+      const err = await res.json();
+      // Email duplicate ho to detail string hoti hai, validation fail ho to list hoti hai
+      msg.textContent = typeof err.detail === "string"
+        ? err.detail
+        : "Email sahi likho aur password kam se kam 8 characters ka rakho";
+    }
+  </script>
+</body>
+</html>

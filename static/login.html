@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Credit Risk Assessment</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f2f4f8; display: flex;
+           justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .card { background: #fff; padding: 30px; border-radius: 10px; width: 320px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h2 { margin-top: 0; text-align: center; }
+    input { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box;
+            border: 1px solid #ccc; border-radius: 6px; }
+    button { width: 100%; padding: 10px; background: #2563eb; color: #fff;
+             border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+    button:hover { background: #1d4ed8; }
+    #msg { color: #dc2626; font-size: 14px; min-height: 18px; }
+    p { text-align: center; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <div id="msg"></div>
+    <button onclick="login()">Login</button>
+    <p>Account nahi hai? <a href="/register.html">Register</a></p>
+  </div>
+
+  <script>
+    // Pehle se logged in hai to seedha main page par bhejo
+    if (localStorage.getItem("token")) window.location.href = "/index.html";
+
+    async function login() {
+      const msg = document.getElementById("msg");
+      msg.textContent = "";
+
+      // FastAPI ka OAuth2 login JSON nahi, form data leta hai.
+      // Aur field ka naam "username" hota hai (humare liye isme email jayega).
+      const body = new URLSearchParams({
+        username: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+      });
+
+      const res = await fetch("/auth/login", { method: "POST", body });
+
+      if (!res.ok) {
+        msg.textContent = "Email and password is worng";
+        return;
+      }
+
+      const data = await res.json();
+      localStorage.setItem("token", data.access_token);
+      window.location.href = "/index.html";
+    }
+  </script>
+</body>
+</html>

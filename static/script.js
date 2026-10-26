@@ -328,13 +328,17 @@
   }
 
   async function postPrediction(payload) {
+    const token = localStorage.getItem("token");
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
     let res;
     try {
       res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
+        },
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
@@ -347,6 +351,14 @@
     } finally {
       clearTimeout(timer);
     }
+
+    // Token expire ho gaya ya galat hai
+    if (res.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/login.html";
+      throw new Error("Session expired. Please log in again.");
+    }
+
     if (!res.ok) throw new Error(await describeError(res));
     return res.json();
   }
@@ -438,7 +450,11 @@
     placeAll(true);
     setIdle();
   });
-
+  
+  $("#logout-btn").addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login.html";
+  });
   /* ------------------------------------------------------------------
      Init
   ------------------------------------------------------------------- */

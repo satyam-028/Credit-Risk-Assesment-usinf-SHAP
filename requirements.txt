@@ -9,3 +9,11 @@ joblib>=1.4
 scikit-learn
 # If your pipeline also uses xgboost, lightgbm, imbalanced-learn, etc., add them here.
 xgboost==3.4.1
+shap
+sqlalchemy
+psycopg2-binary
+bcrypt
+PyJWT
+python-multipart
+python-dotenv
+email-validator

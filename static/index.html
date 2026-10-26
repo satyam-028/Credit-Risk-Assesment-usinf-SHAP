@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Loan default risk check</title>
   <meta name="description" content="Enter a loan application and see the model's estimated chance of default.">
+  <script>
+    // Token nahi hai to page dikhne se pehle hi login par bhej do
+    if (!localStorage.getItem("token")) window.location.replace("/login.html");
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Schibsted+Grotesk:wght@400..700&display=swap" rel="stylesheet">
@@ -19,8 +23,10 @@
         <circle cx="14" cy="20" r="2.5" fill="currentColor"/>
       </svg>
       Credit risk assessment
-    </a>
-    <a class="header-link" href="/docs">API docs</a>
+    <div class="header-actions">
+      <a class="header-link" href="/docs">API docs</a>
+      <button type="button" class="pill-btn" id="logout-btn">Logout</button>
+    </div>
   </header>
 
   <main class="layout">

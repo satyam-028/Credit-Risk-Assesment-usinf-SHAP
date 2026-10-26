@@ -92,6 +92,12 @@ h1, h2 { font-family: var(--font-display); margin: 0; }
 }
 .header-link:hover { color: var(--cobalt); border-color: currentColor; }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
