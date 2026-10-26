@@ -4,10 +4,9 @@ pydantic>=2.7
 pandas>=2.2
 numpy>=1.26
 joblib>=1.4
-# IMPORTANT: pin this to the exact version you trained and pickled the model with
+# IMPORTANT: pin to the exact version you trained and pickled the model with
 # (check with: pip show scikit-learn), e.g. scikit-learn==1.5.2
 scikit-learn
-# If your pipeline also uses xgboost, lightgbm, imbalanced-learn, etc., add them here.
 xgboost==3.4.1
 shap
 sqlalchemy
