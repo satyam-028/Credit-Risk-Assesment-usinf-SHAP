@@ -10,7 +10,7 @@ scikit-learn
 xgboost==3.4.1
 shap
 sqlalchemy
-psycopg2-binary
+psycopg[binary]
 bcrypt
 PyJWT
 python-multipart
